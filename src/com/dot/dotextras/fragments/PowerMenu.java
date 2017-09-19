@@ -24,10 +24,19 @@ import android.support.v7.preference.PreferenceScreen;
 import android.support.v7.preference.Preference.OnPreferenceChangeListener;
 import android.support.v14.preference.SwitchPreference;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.content.ContentResolver;
+import android.os.UserHandle;
+import android.os.UserManager;
+import android.content.pm.UserInfo;
 
 import com.android.settings.R;
 import com.android.settings.SettingsPreferenceFragment;
 import com.android.settings.Utils;
+
+import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.android.internal.logging.nano.MetricsProto;
 
@@ -37,8 +46,11 @@ public class PowerMenu extends SettingsPreferenceFragment implements Preference.
     private static final String KEY_POWERMENU_LS_REBOOT = "powermenu_ls_reboot";
     private static final String KEY_POWERMENU_LS_ADVANCED_REBOOT = "powermenu_ls_advanced_reboot";
     private static final String KEY_POWERMENU_LS_SCREENSHOT = "powermenu_ls_screenshot";
+    private static final String KEY_POWERMENU_TORCH = "powermenu_torch";
+
     //private static final String KEY_POWERMENU_LS_AIRPLANE = "powermenu_ls_airplane";
 
+    private SwitchPreference mPowermenuTorch;
     private SwitchPreference mPowerMenuLockscreen;
     private SwitchPreference mPowerMenuReboot;
     private SwitchPreference mPowerMenuAdvancedReboot;
@@ -71,6 +83,15 @@ public class PowerMenu extends SettingsPreferenceFragment implements Preference.
                 Settings.System.POWERMENU_LS_SCREENSHOT, 0) == 1));
         mPowerMenuScreenshot.setOnPreferenceChangeListener(this);
 
+        mPowermenuTorch = (SwitchPreference) findPreference(KEY_POWERMENU_TORCH);
+        mPowermenuTorch.setOnPreferenceChangeListener(this);
+        if (!Utils.deviceSupportsFlashLight(getActivity())) {
+            prefScreen.removePreference(mPowermenuTorch);
+        } else {
+        mPowermenuTorch.setChecked((Settings.System.getInt(resolver,
+                Settings.System.POWERMENU_TORCH, 0) == 1));
+        }
+
         /** mPowerMenuAirplane = (SwitchPreference) findPreference(KEY_POWERMENU_LS_AIRPLANE);
         mPowerMenuAirplane.setChecked((Settings.System.getInt(getContentResolver(),
                 Settings.System.POWERMENU_LS_AIRPLANE, 0) == 1));
@@ -100,6 +121,10 @@ public class PowerMenu extends SettingsPreferenceFragment implements Preference.
             boolean value = (Boolean) objValue;
             Settings.System.putInt(getActivity().getContentResolver(),
                     Settings.System.POWERMENU_LS_SCREENSHOT, value ? 1 : 0);
+        } else if (preference == mPowermenuTorch) {
+            boolean value = (Boolean) newValue;
+            Settings.System.putInt(getActivity().getContentResolver(),
+                    Settings.System.POWERMENU_TORCH, value ? 1 : 0);
             return true;
         } /** else if (preference == mPowerMenuAirplane) {
             boolean value = (Boolean) objValue;
