@@ -1092,6 +1092,7 @@
         <item>@string/qstile_dual_tone_circle</item>
         <item>@string/qstile_squircle_trim</item>
         <item>@string/qstile_circle_gradient</item>
+        <item>@string/qstile_cookie</item>
         <item>@string/qstile_wavey</item>
         <item>@string/qstile_circle_dualtone</item>
         <item>@string/qstile_pokesign</item>
@@ -1122,6 +1123,7 @@
         <item>13</item>
         <item>14</item>
         <item>15</item>
+        <item>16</item>
     </string-array>
 
     <!-- Smart pulldown -->
