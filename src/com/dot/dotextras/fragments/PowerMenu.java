@@ -30,6 +30,7 @@ import android.os.UserHandle;
 import android.os.UserManager;
 import android.content.pm.UserInfo;
 
+import com.android.settings.Utils;
 import com.android.settings.R;
 import com.android.settings.SettingsPreferenceFragment;
 import com.dot.dotextras.Utils;
@@ -125,7 +126,7 @@ public class PowerMenu extends SettingsPreferenceFragment implements Preference.
             Settings.System.putInt(getActivity().getContentResolver(),
                     Settings.System.POWERMENU_LS_SCREENSHOT, value ? 1 : 0);
         } else if (preference == mPowermenuTorch) {
-            boolean value = (Boolean) newValue;
+            boolean value = (Boolean) objValue;
             Settings.System.putInt(getActivity().getContentResolver(),
                     Settings.System.POWERMENU_TORCH, value ? 1 : 0);
             return true;
