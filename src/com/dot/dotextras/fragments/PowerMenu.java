@@ -32,7 +32,6 @@ import android.content.pm.UserInfo;
 
 import com.android.settings.R;
 import com.android.settings.SettingsPreferenceFragment;
-import com.android.settings.Utils;
 import com.dot.dotextras.Utils;
 
 import java.util.Arrays;
@@ -83,6 +82,9 @@ public class PowerMenu extends SettingsPreferenceFragment implements Preference.
         mPowerMenuScreenshot.setChecked((Settings.System.getInt(getContentResolver(),
                 Settings.System.POWERMENU_LS_SCREENSHOT, 0) == 1));
         mPowerMenuScreenshot.setOnPreferenceChangeListener(this);
+
+        final ContentResolver resolver = getActivity().getContentResolver();
+        final PreferenceScreen prefScreen = getPreferenceScreen();
 
         mPowermenuTorch = (SwitchPreference) findPreference(KEY_POWERMENU_TORCH);
         mPowermenuTorch.setOnPreferenceChangeListener(this);
